@@ -1,49 +1,84 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <title>HTML</title>
-  
-  <!-- HTML -->
-  
-
-  <!-- Custom Styles -->
-  <link rel="stylesheet" href="style.css">
-  <style>
-    body {
-  background-color: #89BEFF;
-  display: grid;
-  place-items: center;
-  height: 100vh;
-}
-.container {
-  background-color: #fff;
-  border-radius: 10px;
-  padding: 10px;
-  width: 300px;
-  text-align: center;
-}
-img {
-  border-radius: inherit;
-  width: 100%;
-  height: auto;
-}
-p {
-  color: grey;
-}
-  </style>
-</head>
-
-<body>
-  <div class="container">
-    <img src="FB_IMG_17314274689320356.jpg" alt="qr code" width="300" height="auto">
-    <h3>Improve your frontend skills by building projects</h3>
-    <p>scan the QR code to visit frontend mentor and take your coding skills to the next level.</p>
-  </div>
-  <!-- Project -->
-  <script src="main.js"></script>
-</body>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>Expense Tracker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  </head>
+  <body>
+   <main>
+     <header>
+       <h3><i class="fa fa-user"></i>Divine <h3></h3>
+       <i class="fa fa-navicon"></i>
+       <i class="fa fa-bell"></i>
+     </header>
+     
+     <section>
+       <section id="balance">
+         <p>Total expenses</p>
+         <h2><span>$</span> <span id="expenses">0.00</span></h2>
+         
+         <p>Total income</p>
+         <h2><span>$</span> <span id="income">0.00</span></h2>
+       </section>
+       
+       <section class="board">
+        
+         <section id="buttons">
+           <button type="button" class="Btn" id="depositBtn"><i class="fa fa-money"></i>Deposit</button>
+           <button type="button" class="Btn"><i class="fa fa-sign-out"></i>Expense</button>
+         </section>
+         
+         <section id="history">
+           <h3>Transactions</h3>
+           
+           <ul id="histories">
+             <p>No transactions yet</p>
+           </ul>
+         </section>
+       </section>
+     </section>
+     <section class="popup-layer">
+       <form class="popup-box income">
+         <div>
+           <i class="fa fa-usd"></i>
+           <input type="number" name="amount" id="" placeholder="500" />
+         </div>
+         <select name="options" id="options">
+           <option value="salary">Salary</option>
+           <option value="gift">Gift</option>
+           <option value="savings">Savings</option>
+           <option value="">Others</option>
+         </select>
+         <input type="text" name="description" id="category" placeholder="Description 0-15 characters" maxlength="15" />
+         
+         <input type="submit" value="Record">
+       </form>
+       
+     </section>
+     
+     <section class="popup-layer2">
+       <form class="popup-box expenses">
+         <div>
+           <i class="fa fa-usd"></i>
+           <input type="number" name="amount" id="" placeholder="500" />
+         </div>
+         <select name="options" id="options2">
+           <option value="Feeding">Feeding</option>
+           <option value="Subscriptions">Subscriptions</option>
+           <option value="Support">Support</option>
+           <option value="other">Others</option>
+         </select>
+         <input type="text" name="description" id="category2" placeholder="Description 0-15 characters" maxlength="15" />
+         
+         <input type="submit" value="Record"id="submit2">
+       </form>
+       
+     </section>
+   </main>
+   
+   <script src="main.js"></script>
+  </body>
 </html>
