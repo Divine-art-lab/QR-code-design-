@@ -109,7 +109,9 @@ function handleData(e) {
     alert('Please fill in all details');
     return;
   }
-  
+    
+    saveToLocaleStorage(history);
+    
    renderHistory();
    form.reset();
    document.querySelector('input[type="submit"]').value = 'Record';
@@ -149,6 +151,8 @@ function handleData2(e) {
       return;
   }
   
+  saveToLocaleStorage(history);
+  
   renderHistory();
   
   form2.reset();
@@ -174,6 +178,7 @@ const date = () => {
 function renderHistory() {
   histories.innerHTML = null;
   histories.style.padding = '16px';
+  //const content = history.length > 0 ? history : console.log('history failed') || JSON.parse(localStorage.getItem('transactions'));
   history.forEach((data) => {
     if (data.type === 'expenses') {
       const li = document.createElement('li');
@@ -234,3 +239,10 @@ layer.addEventListener('click', (e) => {
 layer2.addEventListener('click', (e) => {
   e.currentTarget.style.display = 'none';
 });
+
+function saveToLocaleStorage(items) {
+  const itemsStr = JSON.stringify(items);
+  localStorage.setItem('transactions', itemsStr)
+}
+
+renderHistory()
