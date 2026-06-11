@@ -31,7 +31,11 @@ const form = document.querySelector('form');
 const p = document.querySelector('p');
 let totalIncome = 0;
 let totelExpenses = 0;
-const history = [];
+
+//display items from local storage 
+function displayTransactions(localStorageHistory) {
+  renderHistory(localStorageHistory);
+}
 
 //Add functions to the deposit button
 depBtn.addEventListener('click', () => {
@@ -100,19 +104,17 @@ function handleData(e) {
       time: date()
     }
     //console.log(historyData);
-    history.push(historyData)
     totalIncome += historyData.amount;
     incomeBalance.textContent = `${totalIncome.toLocaleString()}.00`;
-    
+    displayTransactions(getItemsAndAdd(historyData));
     
   } else {
     alert('Please fill in all details');
     return;
   }
     
-    saveToLocaleStorage(history);
-    
-   renderHistory();
+    //saveToLocaleStorage(history);
+   
    form.reset();
    document.querySelector('input[type="submit"]').value = 'Record';
 }
@@ -142,23 +144,22 @@ function handleData2(e) {
       time: date()
     }
     //console.log(historyData);
-    history.push(historyData);
+    //history.push(historyData);
     totelExpenses += historyData.amount;
     expBalance.textContent = totelExpenses.toLocaleString() + '.00';
+    displayTransactions(getItemsAndAdd(historyData));
     
   } else {
       alert('Please fill in all datas');
       return;
   }
   
-  saveToLocaleStorage(history);
-  
-  renderHistory();
-  
+  //clear form inputs
   form2.reset();
   layer2.querySelector('input[type="submit"]').value = 'Record';
 }
 
+//create date and time
 const date = () => {
   const d = new Date();
   const dateFormat = d.toLocaleString('default', {
@@ -174,12 +175,38 @@ const date = () => {
   return dateFormat;
 }
 
+//check items in local storage and assign to a variable for use 
+let historyItems;
+function getItemsFromLocalStorage() {
+  
+  if (localStorage.getItem('transactions') === null) {
+    historyItems = [];
+  } else {
+    historyItems = JSON.parse(localStorage.getItem('transactions'));
+  }
+  
+  return JSON.parse(localStorage.getItem('transactions'));
+}
+
+function getItemsAndAdd(historyD) {
+  getItemsFromLocalStorage();
+  
+  console.log(historyItems);
+  
+  historyItems.push(historyD);
+
+  localStorage.setItem('transactions', JSON.stringify(historyItems));
+  
+  return JSON.parse(localStorage.getItem('transactions'));
+}
+
 //function to display history from the array 
-function renderHistory() {
+function renderHistory(dataHistory) {
+  
   histories.innerHTML = null;
   histories.style.padding = '16px';
-  //const content = history.length > 0 ? history : console.log('history failed') || JSON.parse(localStorage.getItem('transactions'));
-  history.forEach((data) => {
+  
+  dataHistory.forEach((data) => {
     if (data.type === 'expenses') {
       const li = document.createElement('li');
       li.classList = 'list';
@@ -240,9 +267,5 @@ layer2.addEventListener('click', (e) => {
   e.currentTarget.style.display = 'none';
 });
 
-function saveToLocaleStorage(items) {
-  const itemsStr = JSON.stringify(items);
-  localStorage.setItem('transactions', itemsStr)
-}
 
-renderHistory()
+displayTransactions(getItemsFromLocalStorage()) 
