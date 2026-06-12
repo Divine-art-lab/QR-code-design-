@@ -30,12 +30,46 @@ const amtInput = document.querySelector('input');
 const form = document.querySelector('form');
 const p = document.querySelector('p');
 let totalIncome = 0;
-let totelExpenses = 0;
+let totalExpenses = 0;
+
+//check items in local storage and assign to a variable for use 
+let historyItems;
+function getItemsFromLocalStorage() {
+  
+  if (localStorage.getItem('transactions') === null) {
+    historyItems = [];
+  } else {
+    historyItems = JSON.parse(localStorage.getItem('transactions'));
+  }
+  
+  return JSON.parse(localStorage.getItem('transactions'));
+}
 
 //display items from local storage 
 function displayTransactions(localStorageHistory) {
   renderHistory(localStorageHistory);
 }
+
+//get and update balance from storage 
+
+function calTotalAmt(cart) {
+  const amt = bal.filter((type) => type.type === cart
+  ).reduce((acc, currentValue) => {
+    return acc + currentValue.amount;
+  }, 0)
+  
+  return amt;
+}
+const getBalance = (balance) => {
+  bal = balance();
+  
+  totalExpenses = calTotalAmt('expenses');
+  totalIncome= calTotalAmt('income');
+  
+  expBalance.textContent = totalExpenses.toLocaleString() + '.00';
+  incomeBalance.textContent = totalIncome.toLocaleString() + '.00';
+}
+
 
 //Add functions to the deposit button
 depBtn.addEventListener('click', () => {
@@ -87,6 +121,8 @@ document.querySelector('.income select').addEventListener('change', () => {
     }
   })
 
+
+
 // function to collect the form details to display in history
 function handleData(e) {
   e.preventDefault();
@@ -119,6 +155,7 @@ function handleData(e) {
    document.querySelector('input[type="submit"]').value = 'Record';
 }
 
+
 //Expenses function
 function handleData2(e) {
   e.preventDefault();
@@ -145,8 +182,8 @@ function handleData2(e) {
     }
     //console.log(historyData);
     //history.push(historyData);
-    totelExpenses += historyData.amount;
-    expBalance.textContent = totelExpenses.toLocaleString() + '.00';
+    totalExpenses += historyData.amount;
+    expBalance.textContent = totalExpenses.toLocaleString() + '.00';
     displayTransactions(getItemsAndAdd(historyData));
     
   } else {
@@ -175,18 +212,7 @@ const date = () => {
   return dateFormat;
 }
 
-//check items in local storage and assign to a variable for use 
-let historyItems;
-function getItemsFromLocalStorage() {
-  
-  if (localStorage.getItem('transactions') === null) {
-    historyItems = [];
-  } else {
-    historyItems = JSON.parse(localStorage.getItem('transactions'));
-  }
-  
-  return JSON.parse(localStorage.getItem('transactions'));
-}
+
 
 function getItemsAndAdd(historyD) {
   getItemsFromLocalStorage();
@@ -268,4 +294,5 @@ layer2.addEventListener('click', (e) => {
 });
 
 
-displayTransactions(getItemsFromLocalStorage()) 
+displayTransactions(getItemsFromLocalStorage());
+getBalance(getItemsFromLocalStorage);
